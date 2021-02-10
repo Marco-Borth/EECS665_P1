@@ -278,10 +278,8 @@ namespace crona {
         STRLITERAL = 295,
         TRUE = 296,
         VOID = 297,
-				WARN = 298,
-        WHILE = 299,
-        WRITE = 300,
-				FATAL = 404
+        WHILE = 298,
+        WRITE = 299
       };
     };
 

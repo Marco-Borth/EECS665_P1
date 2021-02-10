@@ -80,26 +80,16 @@ STRING [ !#-~]
 
 \\q  {
     std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: String literal with bad escape seqeunce ignored ";
-
-    int tokenKind = TokenKind::FATAL;
-    this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
-
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
-    return tokenKind;
     }
 
 \\Q  {
     std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: String literal with bad escape seqeunce ignored ";
-
-    int tokenKind = TokenKind::FATAL;
-    this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
-
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
-    return tokenKind;
     }
 
 {DIGIT}+	{
@@ -112,26 +102,21 @@ STRING [ !#-~]
 		// since it's implicitly known that the token represents an
 		// INTLITERAL
 
-      if (intVal < 2147483648) {
-        yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
-
-        //TODO: update the colNum count according to the number of
-        // characters consumed.
-
-        //As before, alert the client program that an INTLITERAL
-        // token was matched
-        return TokenKind::INTLITERAL;
-      } else {
+      if (stod(yytext) >= 2147483648.000) {
         std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Integer literal too large; using max value ";
-
-        int tokenKind = TokenKind::WARN;
-        this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
         msg += yytext;
         error(lineNum,colNum,msg);
         colNum += yyleng;
-
-        return tokenKind;
       }
+
+    yylval->lexeme = new IntLitToken(lineNum, colNum, intVal);
+
+    //TODO: update the colNum count according to the number of
+    // characters consumed.
+
+    //As before, alert the client program that an INTLITERAL
+    // token was matched
+    return TokenKind::INTLITERAL;
 		}
 
 "{STRING}*"   {
@@ -144,14 +129,9 @@ STRING [ !#-~]
 
 "{STRING}*//"   {
     std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal with bad escaped character ignored";
-
-    int tokenKind = TokenKind::FATAL;
-    this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
-
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
-    return tokenKind;
     }
 
 {IDALPHA}+   {
@@ -170,14 +150,9 @@ STRING [ !#-~]
 
 \\n		{
     std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal ignored ";
-
-    int tokenKind = TokenKind::FATAL;
-    this->yylval->lexeme = new Token(lineNum, colNum, tokenKind);
-
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
-    return tokenKind;
 		}
 
 

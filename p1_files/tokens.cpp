@@ -48,10 +48,8 @@ static std::string tokenKindString(int tokKind){
 		case TokenKind::STRLITERAL: return "STRINGLIT";
 		case TokenKind::TRUE: return "TRUE";
 		case TokenKind::VOID: return "VOID";
-		case TokenKind::WARN: return "WARN";
 		case TokenKind::WHILE: return "WHILE";
 		case TokenKind::WRITE: return "WRITE";
-		case TokenKind::FATAL: return "FATAL";
 		default:
 			return "OTHER";
 	}
