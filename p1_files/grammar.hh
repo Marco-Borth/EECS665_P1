@@ -52,7 +52,7 @@
 		class Scanner;
 	}
 
-//The following definition is required when 
+//The following definition is required when
 // we don't use the %locations directive (which we won't)
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -278,8 +278,10 @@ namespace crona {
         STRLITERAL = 295,
         TRUE = 296,
         VOID = 297,
-        WHILE = 298,
-        WRITE = 299
+				WARN = 298,
+        WHILE = 299,
+        WRITE = 300,
+				FATAL = 404
       };
     };
 
