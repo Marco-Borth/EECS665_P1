@@ -1,0 +1,14 @@
+9:0 ***ERROR*** FATAL [9,0]: Illegal character "
+9:15 ***ERROR*** FATAL [9,15]: Illegal character /
+9:16 ***ERROR*** FATAL [9,16]: Illegal character "
+10:0 ***ERROR*** FATAL [10,0]: String literal with bad escape seqeunce ignored \q
+12:0 ***ERROR*** FATAL [12,0]: Illegal character "
+12:5 ***ERROR*** FATAL [12,5]: Illegal character "
+13:0 ***ERROR*** FATAL [13,0]: String literal with bad escape seqeunce ignored \Q
+14:0 ***ERROR*** FATAL [14,0]: Illegal character "
+14:4 ***ERROR*** FATAL [14,4]: Unterminated string literal ignored \n
+14:6 ***ERROR*** FATAL [14,6]: Illegal character "
+15:0 ***ERROR*** FATAL [15,0]: Unterminated string literal ignored \n
+21:0 ***ERROR*** FATAL [21,0]: Integer literal too large; using max value 300000000000000000
+22:0 ***ERROR*** FATAL [22,0]: Illegal character "
+22:1 ***ERROR*** FATAL [22,1]: Illegal character "
