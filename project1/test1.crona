@@ -11,6 +11,8 @@ where_is_the_beef
 "where is the beef /"
 "where is the beef \"
 \q
+\eof
+"very bad string \"
 quit
 "quit"
 \Q
@@ -18,6 +20,7 @@ quit
 \n
 70 - 30
 153 + 34
+"very very bad string \q"
 quality assurance
 beta
 + -

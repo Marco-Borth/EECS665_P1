@@ -133,7 +133,7 @@ STRING [ !#-[]-~]
     return TokenKind::ID;
     }
 
-""{STRING}*"" {
+"{STRING}*" {
     string stringVal = yytext;
     yylval->lexeme = new StrToken(lineNum, colNum, stringVal);
     colNum += yyleng;
@@ -141,8 +141,8 @@ STRING [ !#-[]-~]
     return TokenKind::STRLITERAL;
     }
 
-\\  {
-    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: String literal with bad escape seqeunce ignored ";
+"{STRING}*\\{STRING}*"  {
+    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal with bad escaped character ignored ";
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
