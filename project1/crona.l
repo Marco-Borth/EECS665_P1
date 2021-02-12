@@ -28,7 +28,7 @@ using TokenKind = crona::Parser::token;
 
 DIGIT [0-9]
 IDALPHA [0-9A-Z_a-z]
-STRING [ !#-~]
+STRING [ !#-[]-~]
 
 %%
 %{          /** Code executed at the beginning of yylex **/
@@ -85,8 +85,15 @@ STRING [ !#-~]
     colNum += yyleng;
     }
 
-\\Q  {
-    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: String literal with bad escape seqeunce ignored ";
+\\n  {
+    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal ignored ";
+    msg += yytext;
+    error(lineNum,colNum,msg);
+    colNum += yyleng;
+    }
+
+\\eof  {
+    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal ignored ";
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
@@ -103,7 +110,7 @@ STRING [ !#-~]
 		// INTLITERAL
 
       if (stod(yytext) >= 2147483648.000) {
-        std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Integer literal too large; using max value ";
+        std::string msg = "WARN [" + to_string(lineNum) + "," + to_string(colNum) + "]: Integer literal too large; using max value ";
         msg += yytext;
         error(lineNum,colNum,msg);
       }
@@ -126,7 +133,7 @@ STRING [ !#-~]
     return TokenKind::ID;
     }
 
-"{STRING}*"   {
+""{STRING}*"" {
     string stringVal = yytext;
     yylval->lexeme = new StrToken(lineNum, colNum, stringVal);
     colNum += yyleng;
@@ -134,8 +141,8 @@ STRING [ !#-~]
     return TokenKind::STRLITERAL;
     }
 
-"{STRING}*//"   {
-    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal with bad escaped character ignored";
+\\  {
+    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: String literal with bad escape seqeunce ignored ";
     msg += yytext;
     error(lineNum,colNum,msg);
     colNum += yyleng;
@@ -146,14 +153,6 @@ STRING [ !#-~]
 		lineNum++;
 		colNum = 0;
 		}
-
-\\n		{
-    std::string msg = "FATAL [" + to_string(lineNum) + "," + to_string(colNum) + "]: Unterminated string literal ignored ";
-    msg += yytext;
-    error(lineNum,colNum,msg);
-    colNum += yyleng;
-		}
-
 
 " " { }
 
